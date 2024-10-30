@@ -6,6 +6,7 @@ import { useState } from "react";
 import ParentForm from "./forms/ParentForm";
 import SubjectForm from "./forms/SubjectForm";
 import ClassForm from "./forms/ClassForm";
+import LessonForm from "./forms/LessonForm";
 
 
 
@@ -23,7 +24,8 @@ const forms: {
   student: (type, data) => <StudentForm type={type} data={data} />,
   parent: (type,data) =><ParentForm type = {type} data = {data}/>,
   subject: (type,data) =><SubjectForm type = {type} data = {data}/>,
-  class: (type,data) =><ClassForm type = {type} data = {data}/>
+  class: (type,data) =><ClassForm type = {type} data = {data}/>,
+  lesson:(type,data)=><LessonForm type = {type} data = {data}/>,
 };
 
 const FormModal = ({

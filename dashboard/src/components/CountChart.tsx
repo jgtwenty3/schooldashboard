@@ -37,12 +37,15 @@ const CountChart = () => {
       <div className="relative w-full h-[75%]">
         <ResponsiveContainer>
           <RadialBarChart
-            cx="50%"
+            cx="56%"
             cy="50%"
             innerRadius="40%"
             outerRadius="100%"
             barSize={32}
             data={data}
+            width ={200}
+            height = {300}
+            
           >
             <RadialBar background dataKey="count" />
           </RadialBarChart>
