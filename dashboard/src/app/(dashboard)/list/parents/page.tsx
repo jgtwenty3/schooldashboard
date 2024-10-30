@@ -4,6 +4,7 @@ import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
 import { parentsData, role } from "@/lib/data";
 import Image from "next/image";
+import Link from "next/link";
 
 type Parent = {
   id: number;
@@ -57,6 +58,7 @@ const ParentListPage = () => {
       <td className="hidden md:table-cell">{item.address}</td>
       <td>
         <div className="flex items-center gap-2">
+          
           {role === "admin" && (
             <>
               <FormModal table="parent" type="update" data={item} />
