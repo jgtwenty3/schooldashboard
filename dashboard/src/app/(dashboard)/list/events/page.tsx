@@ -60,7 +60,7 @@ const EventsListPage = () => {
         <td className="hidden md:table-cell">{item.endTime}</td>
         <td>
             <div className="flex items-center gap-2">
-            <Link href={`/list/results/${item.id}`}>
+            <Link href={`/list/events/${item.id}`}>
                 <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
                     <Image src="/edit.png" alt="" width={20} height={20} className ="bg-sky rounded-md" />
                 </button>
