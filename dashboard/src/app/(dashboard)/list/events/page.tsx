@@ -51,7 +51,7 @@ const EventsListPage = () => {
   const renderRow = (item: Event) => (
     <tr
       key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
+      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-purple"
     >
         <td className="flex items-center gap-4 p-4">{item.title}</td>
         <td>{item.class}</td>
@@ -61,15 +61,15 @@ const EventsListPage = () => {
         <td>
             <div className="flex items-center gap-2">
             <Link href={`/list/events/${item.id}`}>
-                <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
+                <button className="w-7 h-7 flex items-center justify-center rounded-full bg-sky">
                     <Image src="/edit.png" alt="" width={20} height={20} className ="bg-sky rounded-md" />
                 </button>
             </Link>
             {role === "admin" && (
-                <button className="w-7 h-7 flex items-center justify-center rounded-full bg-purple">
-                 <Image src="/delete.png" alt="" width={16} height={16} />
-                </button>
-                // <FormModal table="student" type="delete" id={item.id}/>
+                // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-purple">
+                //  <Image src="/delete.png" alt="" width={16} height={16} />
+                // </button>
+                <FormModal table="event" type="delete" id={item.id}/>
             )}
             </div>
         </td>
@@ -92,10 +92,10 @@ const EventsListPage = () => {
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
             {role === "admin" && (
-              <button className="w-8 h-8 flex items-center justify-center rounded-full  bg-yellow">
-                <Image src="/plus.png" alt="" width={14} height={14} />
-              </button>
-              // <FormModal table="student" type="create"/>
+              // <button className="w-8 h-8 flex items-center justify-center rounded-full  bg-yellow">
+              //   <Image src="/plus.png" alt="" width={14} height={14} />
+              // </button>
+              <FormModal table="event" type="create"/>
             )}
           </div>
         </div>

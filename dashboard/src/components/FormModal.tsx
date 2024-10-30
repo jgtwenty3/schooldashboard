@@ -3,11 +3,10 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
+import ParentForm from "./forms/ParentForm";
+import SubjectForm from "./forms/SubjectForm";
 
-// USE LAZY LOADING
 
-// import TeacherForm from "./forms/TeacherForm";
-// import StudentForm from "./forms/StudentForm";
 
 const TeacherForm = dynamic(() => import("./forms/TeacherForm"), {
   loading: () => <h1>Loading...</h1>,
@@ -20,7 +19,9 @@ const forms: {
   [key: string]: (type: "create" | "update", data?: any) => JSX.Element;
 } = {
   teacher: (type, data) => <TeacherForm type={type} data={data} />,
-  student: (type, data) => <StudentForm type={type} data={data} />
+  student: (type, data) => <StudentForm type={type} data={data} />,
+  parent: (type,data) =><ParentForm type = {type} data = {data}/>,
+  subject: (type,data) =><SubjectForm type = {type} data = {data}/>
 };
 
 const FormModal = ({
@@ -49,10 +50,10 @@ const FormModal = ({
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
   const bgColor =
     type === "create"
-      ? "bg-lamaYellow"
+      ? "bg-yellow"
       : type === "update"
-      ? "bg-lamaSky"
-      : "bg-lamaPurple";
+      ? "bg-sky"
+      : "bg-purple";
 
   const [open, setOpen] = useState(false);
 
