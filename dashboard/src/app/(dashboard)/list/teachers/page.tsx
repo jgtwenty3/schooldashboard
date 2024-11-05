@@ -93,8 +93,11 @@ const renderRow = (item: TeacherList) => (
 const TeacherListPage = async ({
   searchParams
 }: { searchParams: { [key: string]: string } | undefined }) => {
-  const { page, ...queryParams } = await searchParams; // Await here
+  const { page, ...queryParams } = searchParams;
+
   const p = page ? parseInt(page) : 1;
+
+  // URL PARAMS CONDITION
 
   const query: Prisma.TeacherWhereInput = {};
 
@@ -118,7 +121,7 @@ const TeacherListPage = async ({
       }
     }
   }
-  
+
   const [data, count] = await prisma.$transaction([
     prisma.teacher.findMany({
       where: query,
