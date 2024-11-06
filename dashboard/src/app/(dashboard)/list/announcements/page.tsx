@@ -2,12 +2,11 @@ import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import {  role } from "@/lib/data";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
+import { role } from "@/lib/utils";
 import { Announcement, Class, Prisma } from "@prisma/client";
 import Image from "next/image";
-import Link from "next/link";
 
 type AnnouncementList = Announcement & { class: Class };
   
@@ -25,10 +24,14 @@ type AnnouncementList = Announcement & { class: Class };
       accessor: "date",
       className: "hidden md:table-cell",
     },
-    {
-      header: "Actions",
-      accessor: "action",
-    },
+    ...(role === "admin"
+      ? [
+          {
+            header: "Actions",
+            accessor: "action",
+          },
+        ]
+      : []),
   ];
   const renderRow = (item: AnnouncementList) => (
     <tr
@@ -42,16 +45,17 @@ type AnnouncementList = Announcement & { class: Class };
         </td>
         <td>
             <div className="flex items-center gap-2">
-            <Link href={`/list/results/${item.id}`}>
+            {/* <Link href={`/list/results/${item.id}`}>
                 <button className="w-7 h-7 flex items-center justify-center rounded-full bg-sky">
                     <Image src="/edit.png" alt="" width={20} height={20} className ="bg-sky rounded-md" />
                 </button>
-            </Link>
+            </Link> */}
             {role === "admin" && (
-                // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-purple">
-                //  <Image src="/delete.png" alt="" width={16} height={16} />
-                // </button>
-                <FormModal table="announcement" type="delete" id={item.id}/>
+                <>
+                  <FormModal table="announcement" type="update" data={item}/>
+                  <FormModal table="announcement" type="delete" id={item.id}/>
+        
+                </>
             )}
             </div>
         </td>
