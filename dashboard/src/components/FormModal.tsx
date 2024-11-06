@@ -7,6 +7,7 @@ import ParentForm from "./forms/ParentForm";
 import SubjectForm from "./forms/SubjectForm";
 import ClassForm from "./forms/ClassForm";
 import LessonForm from "./forms/LessonForm";
+import AssignmentForm from "./forms/AssignmentForm";
 
 
 
@@ -26,6 +27,7 @@ const forms: {
   subject: (type,data) =><SubjectForm type = {type} data = {data}/>,
   class: (type,data) =><ClassForm type = {type} data = {data}/>,
   lesson:(type,data)=><LessonForm type = {type} data = {data}/>,
+  assignment:(type,data)=><AssignmentForm type = {type} data = {data}/>,
 };
 
 const FormModal = ({

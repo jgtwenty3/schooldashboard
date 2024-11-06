@@ -58,11 +58,6 @@ const renderRow = (item: AssignmentList) => (
         </td>
         <td>
             <div className="flex items-center gap-2">
-            <Link href={`/list/assignments/${item.id}`}>
-                <button className="w-7 h-7 flex items-center justify-center rounded-full bg-sky">
-                    <Image src="/edit.png" alt="" width={20} height={20} className ="bg-sky rounded-md" />
-                </button>
-            </Link>
             {(role === "admin" || role === "teacher") && (
                 <>
                   <FormModal table="assignment" type="update" data={item}/>
