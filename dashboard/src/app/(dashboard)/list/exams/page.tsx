@@ -2,9 +2,9 @@ import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { role } from "@/lib/data";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
+import { currentUserId, role } from "@/lib/utils";
 import { Class, Exam, Prisma, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,11 +36,16 @@ type ExamList = Exam & {
       accessor: "date",
       className: "hidden md:table-cell",
     },
-    {
-      header: "Actions",
-      accessor: "action",
-    },
-  ];
+    ...(role === "admin" || role === "teacher"
+    ? [
+        {
+          header: "Actions",
+          accessor: "action",
+        },
+      ]
+    : []),
+];
+
   const renderRow = (item: ExamList) => (
     <tr
       key={item.id}
@@ -81,6 +86,7 @@ const ExamsListPage = async ({
 
   const p = page ? parseInt(page) : 1;
 
+  // URL PARAMS CONDITION
 
   const query: Prisma.ExamWhereInput = {};
 
@@ -106,6 +112,38 @@ const ExamsListPage = async ({
       }
     }
   }
+
+  // ROLE CONDITIONS
+
+  switch (role) {
+    case "admin":
+      break;
+    case "teacher":
+      query.lesson.teacherId = currentUserId!;
+      break;
+    case "student":
+      query.lesson.class = {
+        students: {
+          some: {
+            id: currentUserId!,
+          },
+        },
+      };
+      break;
+    case "parent":
+      query.lesson.class = {
+        students: {
+          some: {
+            parentId: currentUserId!,
+          },
+        },
+      };
+      break;
+
+    default:
+      break;
+  }
+
   const [data, count] = await prisma.$transaction([
     prisma.exam.findMany({
       where: query,
@@ -123,6 +161,7 @@ const ExamsListPage = async ({
     }),
     prisma.exam.count({ where: query }),
   ]);
+
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
