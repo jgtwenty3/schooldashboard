@@ -4,13 +4,17 @@ import BigCalendarContainer from "@/components/BigCalendarContainer";
 import FormContainer from "@/components/FormContainer";
 import FormModal from "@/components/FormModal";
 import Performance from "@/components/Performance";
-import { role } from "@/lib/data";
+
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { Teacher } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+const {userId,sessionClaims} = await auth()
+export const role = (sessionClaims?.metadata as {role?:string})?.role;
+export const currentUserId = userId
 
 const SingleTeacherPage = async ({
   params: { id },
@@ -161,7 +165,7 @@ const SingleTeacherPage = async ({
         {/* BOTTOM */}
         <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
           <h1>Teacher&apos;s Schedule</h1>
-          <BigCalendar/>
+          <BigCalendarContainer type="teacherId" id={teacher.id} />
         </div>
       </div>
       {/* RIGHT */}

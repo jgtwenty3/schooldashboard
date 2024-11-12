@@ -193,6 +193,7 @@ const StudentForm = ({
           >
             <option value="MALE">Male</option>
             <option value="FEMALE">Female</option>
+            <option value="NONBINARY">Non Binary</option>
           </select>
           {errors.sex?.message && (
             <p className="text-xs text-red-400">
