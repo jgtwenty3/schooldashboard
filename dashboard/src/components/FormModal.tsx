@@ -2,6 +2,7 @@
 
 import {
   deleteClass,
+  deleteStudent,
   deleteSubject,
   deleteTeacher,
   
@@ -18,7 +19,7 @@ const deleteActionMap = {
   subject: deleteSubject,
   class: deleteClass,
   teacher: deleteTeacher,
-  student: deleteSubject,
+  student: deleteStudent,
   exam: deleteSubject,
 // TODO: OTHER DELETE ACTIONS
   parent: deleteSubject,
@@ -84,14 +85,14 @@ const forms: {
       relatedData={relatedData}
     />
   ),
-  // student: (setOpen, type, data, relatedData) => (
-  //   <StudentForm
-  //     type={type}
-  //     data={data}
-  //     setOpen={setOpen}
-  //     relatedData={relatedData}
-  //   />
-  // ),
+  student: (setOpen, type, data, relatedData) => (
+    <StudentForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
   // exam: (setOpen, type, data, relatedData) => (
   //   <ExamForm
   //     type={type}
@@ -99,7 +100,7 @@ const forms: {
   //     setOpen={setOpen}
   //     relatedData={relatedData}
   //   />
-    // TODO OTHER LIST ITEMS
+  //   TODO OTHER LIST ITEMS
   // ),
 };
 
