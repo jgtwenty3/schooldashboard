@@ -1,13 +1,17 @@
-import FormModal from "@/components/FormModal";
+import FormContainer from "@/components/FormContainer";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { currentUserId, role } from "@/lib/utils";
+import { auth } from "@clerk/nextjs/server";
 import { Class, Exam, Prisma, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+
+const {userId,sessionClaims} = await auth()
+const role = (sessionClaims?.metadata as {role?:string})?.role;
+const currentUserId = userId
 
 type ExamList = Exam & {
   lesson: {
@@ -46,36 +50,31 @@ type ExamList = Exam & {
     : []),
 ];
 
-  const renderRow = (item: ExamList) => (
-    <tr
-      key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-purple"
-    >
-        <td className="flex items-center gap-4 p-4">{item.lesson.subject.name}</td>
-        <td>{item.lesson.class.name}</td>
-        <td className="hidden md:table-cell">
-          {item.lesson.teacher.name + " " + item.lesson.teacher.surname}
-        </td>
-        <td className="hidden md:table-cell">
-          {new Intl.DateTimeFormat("en-US").format(item.startTime)}
-        </td>
-        <td>
-            <div className="flex items-center gap-2">
-            <Link href={`/list/exams/${item.id}`}>
-                <button className="w-7 h-7 flex items-center justify-center rounded-full bg-sky">
-                    <Image src="/edit.png" alt="" width={20} height={20} className ="bg-sky rounded-md" />
-                </button>
-            </Link>
-            {role === "admin" && (
-                // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-purple">
-                //  <Image src="/delete.png" alt="" width={16} height={16} />
-                // </button>
-                <FormModal table="exam" type="delete" id={item.id}/>
-            )}
-            </div>
-        </td>
-    </tr>
-  );
+const renderRow = (item: ExamList) => (
+  <tr
+    key={item.id}
+    className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-purple"
+  >
+    <td className="flex items-center gap-4 p-4">{item.lesson.subject.name}</td>
+    <td>{item.lesson.class.name}</td>
+    <td className="hidden md:table-cell">
+      {item.lesson.teacher.name + " " + item.lesson.teacher.surname}
+    </td>
+    <td className="hidden md:table-cell">
+      {new Intl.DateTimeFormat("en-US").format(item.startTime)}
+    </td>
+    <td>
+      <div className="flex items-center gap-2">
+        {(role === "admin" || role === "teacher") && (
+          <>
+            <FormContainer table="exam" type="update" data={item} />
+            <FormContainer table="exam" type="delete" id={item.id} />
+          </>
+        )}
+      </div>
+    </td>
+  </tr>
+);
   
 
 
@@ -181,7 +180,7 @@ const ExamsListPage = async ({
               // <button className="w-8 h-8 flex items-center justify-center rounded-full  bg-yellow">
               //   <Image src="/plus.png" alt="" width={14} height={14} />
               // </button>
-              <FormModal table="exam" type="create"/>
+              <FormContainer table="exam" type="create"/>
             )}
           </div>
         </div>

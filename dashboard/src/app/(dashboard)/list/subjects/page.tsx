@@ -4,9 +4,14 @@ import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { role } from "@/lib/utils";
+import { auth } from "@clerk/nextjs/server";
+
 import { Prisma, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
+
+const {userId,sessionClaims} = await auth()
+export const role = (sessionClaims?.metadata as {role?:string})?.role;
+export const currentUserId = userId
 
 type SubjectList = Subject & { teachers: Teacher[] };
 
