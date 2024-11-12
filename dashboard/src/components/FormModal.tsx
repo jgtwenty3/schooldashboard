@@ -3,6 +3,7 @@
 import {
   deleteClass,
   deleteSubject,
+  deleteTeacher,
   
 } from "@/lib/actions";
 import dynamic from "next/dynamic";
@@ -16,7 +17,7 @@ import { FormContainerProps } from "./FormContainer";
 const deleteActionMap = {
   subject: deleteSubject,
   class: deleteClass,
-  teacher: deleteSubject,
+  teacher: deleteTeacher,
   student: deleteSubject,
   exam: deleteSubject,
 // TODO: OTHER DELETE ACTIONS
@@ -75,14 +76,14 @@ const forms: {
       relatedData={relatedData}
     />
   ),
-  // teacher: (setOpen, type, data, relatedData) => (
-  //   <TeacherForm
-  //     type={type}
-  //     data={data}
-  //     setOpen={setOpen}
-  //     relatedData={relatedData}
-  //   />
-  // ),
+  teacher: (setOpen, type, data, relatedData) => (
+    <TeacherForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
   // student: (setOpen, type, data, relatedData) => (
   //   <StudentForm
   //     type={type}
