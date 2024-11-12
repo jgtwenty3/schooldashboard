@@ -7,7 +7,11 @@ import Link from "next/link";
 import { Class, Prisma, Subject, Teacher } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { role } from "@/lib/utils";
+import { auth } from "@clerk/nextjs/server";
+
+const {userId,sessionClaims} = await auth()
+export const role = (sessionClaims?.metadata as {role?:string})?.role;
+export const currentUserId = userId
 
 type TeacherList = Teacher & {subjects:Subject[]} & {classes:Class[]};
 
